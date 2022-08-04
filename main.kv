@@ -1,0 +1,49 @@
+WindowManager:
+    MainPage:
+    SecondPage:
+
+<MainPage>:
+    name: 'home'
+    BoxLayout:
+        orientation: "vertical"
+    # canvas to change background colour
+        canvas:
+            Color:
+                rgb: 0.25, 0.45, 0.62
+            Rectangle:
+                size: self.size
+        Label:
+            text: "Share my Prayer"
+            font_size: "32dp"
+        # text colour
+            color: 1, 1, 1
+
+        BoxLayout:
+            spacing: 10
+            orientation: "vertical"
+            Button:
+                color: 0, 0, 0
+                background_normal: ""
+                background_color: 1, 1, 1
+                size_hint: (0.8, 1)
+                pos_hint: {"x": 0.1}
+                width:
+                text: "My Prayers"
+
+            Button:
+                text: "Group Prayers"
+
+            Button:
+                text: "All Prayers"
+
+            Button:
+                text: "Log in/Sign up"
+
+
+
+<SecondPage>:
+    name: 'create'
+    BoxLayout:
+        Button:
+            text: 'create'
+            on_release: app.root.current = 'log'
