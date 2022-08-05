@@ -1,6 +1,6 @@
 WindowManager:
     MainPage:
-    SecondPage:
+    MyPrayers:
 
 <MainPage>:
     name: 'home'
@@ -13,36 +13,67 @@ WindowManager:
             Rectangle:
                 size: self.size
         Label:
+            size_hint_y: 0.4
             text: "Share my Prayer"
             font_size: "32dp"
         # text colour
             color: 1, 1, 1
 
         BoxLayout:
-            spacing: 10
             orientation: "vertical"
+            Button:
+                color: 0, 0, 0
+                # Background_normal: "" removes the default background
+                background_normal: ""
+                background_color: 1, 1, 1
+                size_hint: (0.8, 1)
+                pos_hint: {"x": 0.1}
+                text: "My Prayers"
+                # Changes page to the my prayers page
+                on_release: app.root.current = "MyPrayers"
+
+            # label to make a responsive gap between buttons
+            Label:
+                size_hint_y: 0.2
+
             Button:
                 color: 0, 0, 0
                 background_normal: ""
                 background_color: 1, 1, 1
                 size_hint: (0.8, 1)
                 pos_hint: {"x": 0.1}
-                width:
-                text: "My Prayers"
-
-            Button:
                 text: "Group Prayers"
 
+
+            Label:
+                size_hint_y: 0.2
+
             Button:
+                color: 0, 0, 0
+                background_normal: ""
+                background_color: 1, 1, 1
+                size_hint: (0.8, 1)
+                pos_hint: {"x": 0.1}
                 text: "All Prayers"
 
+            Label:
+                size_hint_y: 0.2
+
             Button:
+                color: 0, 0, 0
+                background_normal: ""
+                background_color: 1, 1, 1
+                size_hint: (0.8, 1)
+                pos_hint: {"x": 0.1}
                 text: "Log in/Sign up"
+            # Blank label to add indent to bottom
+            Label:
+                size_hint: (1, 0.3)
 
 
 
-<SecondPage>:
-    name: 'create'
+<MyPrayers>:
+    name: 'MyPrayers'
     BoxLayout:
         Button:
             text: 'create'
