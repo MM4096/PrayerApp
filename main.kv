@@ -1,8 +1,7 @@
-WindowManager:
-    MainPage:
-    MyPrayers:
-
-<MainPage>:
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+# declaration because all these classes were not defined when kv builder was at top of main.py
+<WindowManager@ScreenManager>:
+<MainPage@Screen>:
     name: 'home'
     BoxLayout:
         orientation: "vertical"
@@ -69,12 +68,29 @@ WindowManager:
             # Blank label to add indent to bottom
             Label:
                 size_hint: (1, 0.3)
-
-
-
-<MyPrayers>:
+<MyPrayers@Screen>:
     name: 'MyPrayers'
     BoxLayout:
-        Button:
-            text: 'create'
-            on_release: app.root.current = 'log'
+        orientation: "vertical"
+        # canvas to change background colour
+        canvas:
+            Color:
+                rgb: 0.25, 0.45, 0.62
+            Rectangle:
+                size: self.size
+        Label:
+            size_hint_y: 0.4
+            text: "Personal Prayer list"
+            font_size: "32dp"
+            # text colour
+            color: 1, 1, 1
+
+        BoxLayout:
+            orientation: "vertical"
+            id: FillIn
+
+
+WindowManager:
+    transition: NoTransition()
+    MainPage:
+    MyPrayers:
