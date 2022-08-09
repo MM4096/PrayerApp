@@ -1,7 +1,7 @@
 #: import NoTransition kivy.uix.screenmanager.NoTransition
 # declaration because all these classes were not defined when kv builder was at top of main.py
 <WindowManager@ScreenManager>:
-<MainPage@Screen>:
+<MainPage>:
     name: 'home'
     BoxLayout:
         orientation: "vertical"
@@ -79,7 +79,7 @@
             Rectangle:
                 size: self.size
         Label:
-            size_hint_y: 0.4
+            size_hint_y: 0.3
             text: "Personal Prayer list"
             font_size: "32dp"
             # text colour
