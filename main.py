@@ -1,16 +1,18 @@
 import os.path
 from os.path import exists
 
+from kivy import app
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.config import Config
 from kivy.graphics import *
 from kivy.lang import Builder
 from kivy.metrics import dp
+from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
-from kivy.uix.screenmanager import Screen
+from kivy.uix.screenmanager import Screen, ScreenManager
 
 Config.set("input", 'mouse', "mouse,multitouch_on_demand")
 
@@ -19,6 +21,10 @@ naming) Creates window manager"""
 
 
 # screens
+class WindowManager(ScreenManager):
+    pass
+
+
 class MainPage(Screen):
     pass
 
@@ -52,7 +58,6 @@ class MyPrayers(Screen):
                            color=(1, 1, 1))
         # BoxLayout for the prayers
         self.PrayerBox = BoxLayout(orientation="vertical")
-
         # background
         with self.canvas:
             Color(rgb=(0.25, 0.45, 0.62))
