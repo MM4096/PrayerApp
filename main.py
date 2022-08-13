@@ -58,24 +58,13 @@ class MyPrayers(Screen):
                            color=(1, 1, 1))
         # BoxLayout for the prayers
         self.PrayerBox = BoxLayout(orientation="vertical")
-        # background
-        with self.canvas:
-            Color(rgb=(0.25, 0.45, 0.62))
-            # dynamic rectangle
-            self.rectangle = Rectangle(pos=self.center, size=(self.width / 2, self.height / 2))
-            self.bind(pos=self.UpdateRectangle, size=self.UpdateRectangle)
         # adding widgets
         MainBox.add_widget(TitleLabel)
         MainBox.add_widget(self.PrayerBox)
         self.add_widget(MainBox)
 
-    def UpdateRectangle(self, *args):
-        # updates background rectangle
-        self.rectangle.pos = self.pos
-        self.rectangle.size = self.size
-
     def AddButtons(self, *ButtonText):
-        for i in range(6):
+        for i in range(5):
             # Creates the styled buttons
             self.PrayerBox.add_widget(Button(text=str(ButtonText[0][i]),
                                              color=(0, 0, 0),
@@ -85,6 +74,8 @@ class MyPrayers(Screen):
                                              pos_hint={"x": 0.1}))
             # margin between buttons
             self.PrayerBox.add_widget(Label(size_hint_y=0.2))
+        # even bigger margin for the buttons to go
+        self.PrayerBox.add_widget(Label(size_hint_y=0.2))
 
 
 # app class
