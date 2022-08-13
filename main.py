@@ -30,18 +30,9 @@ class MainPage(Screen):
 
 
 class MyPrayers(Screen):
-    def __init__(self):
-        super(MyPrayers, self).__init__()
-        sMyPrayers
-
-# loads kv file
-kv = Builder.load_file('main.kv')
-
-
-class sMyPrayers(Screen):
 
     def __init__(self, **kwargs):
-        super(sMyPrayers, self).__init__(**kwargs)
+        super(MyPrayers, self).__init__(**kwargs)
         # creating the variables here first
         self.PrayerBox = BoxLayout()
         self.rectangle = None
@@ -99,6 +90,8 @@ class sMyPrayers(Screen):
 # app class
 class PrayerApp(App):
     def build(self):
+        # loads kv file
+        kv = Builder.load_file('main.kv')
         return kv
 
 
