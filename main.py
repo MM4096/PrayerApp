@@ -32,6 +32,7 @@ class MainPage(Screen):
 class MyPrayers(Screen):
 
     def __init__(self, **kwargs):
+        self.PrayerIndex = 0
         super(MyPrayers, self).__init__(**kwargs)
         # creating the variables here first
         self.PrayerBox = BoxLayout()
@@ -41,8 +42,10 @@ class MyPrayers(Screen):
         # Reads 6 lines at a time, to get your prayer
         localPrayers = []
         with open("data/LocalPrayers.txt", "r") as data:
-            for i in range(6):
+            localPrayers.append(data.readline())
+            while not localPrayers[len(localPrayers) - 1] == "":
                 localPrayers.append(data.readline())
+            localPrayers.pop()
         # removes \n or \r\n from the end of each line
         localPrayers = [x.rstrip() for x in localPrayers]
         # add the buttons: lambda dt removes the callback
@@ -64,18 +67,40 @@ class MyPrayers(Screen):
         self.add_widget(MainBox)
 
     def AddButtons(self, *ButtonText):
-        for i in range(5):
-            # Creates the styled buttons
-            self.PrayerBox.add_widget(Button(text=str(ButtonText[0][i]),
-                                             color=(0, 0, 0),
-                                             background_normal="",
-                                             background_color=(1, 1, 1),
-                                             size_hint=(0.8, 1),
-                                             pos_hint={"x": 0.1}))
-            # margin between buttons
+        StartingIndex = self.PrayerIndex
+        # see if first index exists
+        if StartingIndex < len(ButtonText[0]):
+            for i in range(5):
+                # see if value exists
+                try:
+                    # Creates the styled buttons
+                    self.PrayerBox.add_widget(Button(text=str(ButtonText[0][i + StartingIndex]),
+                                                     color=(0, 0, 0),
+                                                     background_normal="",
+                                                     background_color=(1, 1, 1),
+                                                     size_hint=(0.8, 1),
+                                                     pos_hint={"x": 0.1}))
+                    # margin between buttons
+                    self.PrayerBox.add_widget(Label(size_hint_y=0.2))
+                    # generate empty label same size as button
+                except IndexError:
+                    self.PrayerBox.add_widget(Label(size_hint_y=1.2))
+            # even bigger margin for the buttons to go
             self.PrayerBox.add_widget(Label(size_hint_y=0.2))
-        # even bigger margin for the buttons to go
-        self.PrayerBox.add_widget(Label(size_hint_y=0.2))
+
+    def LoadMore(self):
+        self.remove_widget(self.PrayerBox)
+        self.PrayerIndex += 5
+        localPrayers = []
+        with open("data/LocalPrayers.txt", "r") as data:
+            localPrayers.append(data.readline())
+            while not localPrayers[len(localPrayers) - 1] == "":
+                localPrayers.append(data.readline())
+        localPrayers.pop()
+        # removes \n or \r\n from the end of each line
+        localPrayers = [x.rstrip() for x in localPrayers]
+        # add the buttons: lambda dt removes the callback
+        Clock.schedule_once(lambda dt: self.AddButtons(localPrayers))
 
 
 # app class

@@ -85,7 +85,7 @@
             background_normal: ""
             background_color: (0.46, 0.68, 0.93)
             color: (1, 1, 1)
-            on_release: app.root.current = "home"
+            on_release: root.LoadMore()
 
     AnchorLayout:
         anchor_x: "right"
@@ -94,6 +94,7 @@
             size_hint: (None, None)
             size: ("50dp", "50dp")
             background_normal: "images/MenuButton.png"
+            on_release: app.root.current = "home"
 
 
 WindowManager:
