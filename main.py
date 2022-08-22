@@ -28,7 +28,6 @@ class WindowManager(ScreenManager):
 class MainPage(Screen):
     def __init__(self, **kwargs):
         super(MainPage, self).__init__(**kwargs)
-        self.DrawButtonsCall = MyPrayers()
 
 
 class MyPrayers(Screen):
@@ -107,9 +106,19 @@ class MyPrayers(Screen):
         Clock.schedule_once(lambda dt: self.AddButtons(localPrayers))
 
     def reset(self):
+        localPrayers = []
         self.PrayerIndex = 0
         for i in self.PrayerBox.children:
             self.PrayerBox.remove_widget(i)
+        with open("data/LocalPrayers.txt", "r") as data:
+            localPrayers.append(data.readline())
+            while not localPrayers[len(localPrayers) - 1] == "":
+                localPrayers.append(data.readline())
+        localPrayers.pop()
+        # removes \n or \r\n from the end of each line
+        localPrayers = [x.rstrip() for x in localPrayers]
+        # add the buttons: lambda dt removes the callback
+        Clock.schedule_once(lambda dt: self.AddButtons(localPrayers))
 
 
 # app class
