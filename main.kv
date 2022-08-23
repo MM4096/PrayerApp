@@ -78,15 +78,105 @@
     AnchorLayout:
         anchor_x: "left"
         anchor_y: "bottom"
-        Button:
-            text: "Load More"
-            size_hint: (0.2, 0.05)
-            font_size: "10dp"
-            background_normal: ""
-            background_color: (0.46, 0.68, 0.93)
-            color: (1, 1, 1)
-            on_release: root.LoadMore()
+        BoxLayout:
+            size_hint: (0.8, 1)
+            orientation: "horizontal"
+            Button:
+                text: "Load More"
+                size_hint: (0.05, 0.05)
+                font_size: "10dp"
+                background_normal: ""
+                background_color: (0.46, 0.68, 0.93)
+                color: (1, 1, 1)
+                on_release: root.LoadMore()
+            Label:
+                size_hint: (0.005, 1)
+            Button:
+                text: "Create"
+                size_hint: (0.05, 0.05)
+                font_size: "10dp"
+                background_normal: ""
+                background_color: (0.46, 0.68, 0.93)
+                color: (1, 1, 1)
+                on_release: app.root.current = "create"
 
+    AnchorLayout:
+        anchor_x: "right"
+        anchor_y: "bottom"
+        Button:
+            size_hint: (None, None)
+            size: ("50dp", "50dp")
+            background_normal: "images/MenuButton.png"
+            on_release: root.reset()
+            on_release: app.root.current = "home"
+
+<CreatePage>:
+    canvas:
+        Color:
+            rgb: 0.25, 0.45, 0.62
+        Rectangle:
+            size: self.size
+    name: "create"
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            size_hint_y: 0.4
+            text: "Create a Prayer"
+            font_size: "32dp"
+            # text colour
+            color: 1, 1, 1
+        TextInput:
+            id: title
+            hint_text: "Name of Prayer"
+            multiline: False
+            size_hint_y: 0.3
+            size_hint_x: 0.6
+            pos_hint: {"x": 0.2}
+
+        Label:
+            size_hint_y: 0.2
+
+        TextInput:
+            id: body
+            hint_text: "Enter some text"
+            size_hint_y: 2
+            size_hint_x: 0.6
+            pos_hint: {"x": 0.2}
+
+        Label:
+            size_hint_y: 1.4
+
+    AnchorLayout:
+        anchor_x: "left"
+        anchor_y: "bottom"
+        BoxLayout:
+            size_hint: (0.8, 1)
+            orientation: "horizontal"
+            Button:
+                text: "Save"
+                size_hint: (0.05, 0.05)
+                pos_hint: {"x": 0.3}
+                font_size: "10dp"
+                background_normal: ""
+                background_color: (0.46, 0.68, 0.93)
+                color: (1, 1, 1)
+                on_release: root.submit(self)
+
+            Label:
+                size_hint_x: 0.005
+
+            Button:
+                text: "Discard"
+                size_hint: (0.05, 0.05)
+                pos_hint: {"x": 0.3}
+                font_size: "10dp"
+                background_normal: ""
+                background_color: (0.46, 0.68, 0.93)
+                color: (1, 1, 1)
+
+
+
+    # menu button
     AnchorLayout:
         anchor_x: "right"
         anchor_y: "bottom"
@@ -102,3 +192,4 @@ WindowManager:
     transition: NoTransition()
     MainPage:
     MyPrayers:
+    CreatePage:

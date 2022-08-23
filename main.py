@@ -8,6 +8,7 @@ from kivy.config import Config
 from kivy.graphics import *
 from kivy.lang import Builder
 from kivy.metrics import dp
+from kivy.properties import StringProperty
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
@@ -116,6 +117,26 @@ class MyPrayers(Screen):
         localPrayers = [x.rstrip() for x in localPrayers]
         # add the buttons: lambda dt removes the callback
         Clock.schedule_once(lambda dt: self.AddButtons(localPrayers))
+
+
+class CreatePage(Screen):
+    title = StringProperty("")
+    content = StringProperty("")
+
+    def submit(self, widget):
+        # gets data
+        self.title = self.ids.title.text
+        self.content = self.ids.body.text
+        self.content = self.content.replace("\n", "<newline>")
+        # making the prayer in the way it is saved
+        writeStr = self.title + "~" + self.content
+        with open("data/LocalPrayers.txt", 'r+') as file:
+            # reads file
+            data = file.read()
+            # places writing at start
+            file.seek(0, 0)
+            # writes
+            file.write(writeStr + "\n" + data)
 
 
 # app class
