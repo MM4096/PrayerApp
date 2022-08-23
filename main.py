@@ -90,9 +90,7 @@ class MyPrayers(Screen):
             self.PrayerBox.add_widget(Label(size_hint_y=0.2))
 
     def LoadMore(self):
-        for i in self.PrayerBox.children:
-            self.PrayerBox.remove_widget(i)
-        self.remove_widget(self.PrayerBox)
+        self.PrayerBox.clear_widgets()
         self.PrayerIndex += 5
         localPrayers = []
         with open("data/LocalPrayers.txt", "r") as data:
@@ -108,8 +106,7 @@ class MyPrayers(Screen):
     def reset(self):
         localPrayers = []
         self.PrayerIndex = 0
-        for i in self.PrayerBox.children:
-            self.PrayerBox.remove_widget(i)
+        self.PrayerBox.clear_widgets()
         with open("data/LocalPrayers.txt", "r") as data:
             localPrayers.append(data.readline())
             while not localPrayers[len(localPrayers) - 1] == "":
