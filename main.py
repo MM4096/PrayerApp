@@ -1,6 +1,5 @@
 import os.path
 from os.path import exists
-
 from kivy import app
 from kivy.app import App
 from kivy.clock import Clock
@@ -15,6 +14,7 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen, ScreenManager
 
+# for desktop users, right-clicking doesn't generate a red dot
 Config.set("input", 'mouse', "mouse,multitouch_on_demand")
 
 """Python naming conventions: Capital in front of every word (also because errors with screen manager and camel case 
@@ -127,16 +127,25 @@ class CreatePage(Screen):
         # gets data
         self.title = self.ids.title.text
         self.content = self.ids.body.text
+        # replaces \n with tag <newline>
         self.content = self.content.replace("\n", "<newline>")
-        # making the prayer in the way it is saved
-        writeStr = self.title + "~" + self.content
-        with open("data/LocalPrayers.txt", 'r+') as file:
-            # reads file
-            data = file.read()
-            # places writing at start
-            file.seek(0, 0)
-            # writes
-            file.write(writeStr + "\n" + data)
+        # finding "illegal" characters
+        if "\\" or "~" or "<newline>" in self.title:
+            self.ids.TitleError.text = "Error: You cannot use words/characters: \\ ~ <newline> in your title or content"
+        elif "\\" or "~" or "<newline>" in self.content:
+            self.ids.TitleError.text = "Error: You cannot use words/characters: \\ ~ <newline> in your title or content"
+        elif self.title == "":
+            self.ids.TitleError.text = "Error: You must enter a title"
+        else:
+            # making the prayer in the way it is saved
+            writeStr = self.title + "~" + self.content
+            with open("data/LocalPrayers.txt", 'r+') as file:
+                # reads file
+                data = file.read()
+                # places writing at start
+                file.seek(0, 0)
+                # writes
+                file.write(writeStr + "\n" + data)
 
 
 # app class
