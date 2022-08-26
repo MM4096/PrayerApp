@@ -107,7 +107,7 @@
             size_hint: (None, None)
             size: ("50dp", "50dp")
             background_normal: "images/MenuButton.png"
-            on_release: root.reset()
+            on_release: root.Reset()
             on_release: app.root.current = "home"
 
 <CreatePage>:
@@ -135,7 +135,7 @@
             pos_hint: {"x": 0.2}
 
         Label:
-            id: TitleError
+            id: titleError
             size_hint_y: 0.2
 
         TextInput:
@@ -162,7 +162,7 @@
                 background_normal: ""
                 background_color: (0.46, 0.68, 0.93)
                 color: (1, 1, 1)
-                on_release: root.submit(self)
+                on_release: root.Submit(self)
 
             Label:
                 size_hint_x: 0.005
@@ -186,7 +186,6 @@
             size_hint: (None, None)
             size: ("50dp", "50dp")
             background_normal: "images/MenuButton.png"
-            on_release: root.reset()
             on_release: app.root.current = "home"
 
 

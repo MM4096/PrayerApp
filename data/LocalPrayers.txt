@@ -1,3 +1,7 @@
+aa~a
+bob~a
+b~a
+a~a
 test~abc1234<newline>this is (hopefully) a better test
 1
 2
