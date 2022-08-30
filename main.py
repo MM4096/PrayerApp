@@ -17,6 +17,9 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 # for desktop users, right-clicking doesn't generate a red dot
 Config.set("input", 'mouse', "mouse,multitouch_on_demand")
 
+# for viewing prayers (index)
+viewPrayersIndex = 0
+
 """Python naming conventions: Capital in front of every word (also because errors with screen manager and camel case 
 naming) Creates window manager"""
 
@@ -78,14 +81,16 @@ class MyPrayers(Screen):
             for i in range(5):
                 # see if value exists
                 try:
+                    button = Button(text=str(buttonText[0][i + startingIndex][0]),
+                                    color=(0, 0, 0),
+                                    background_normal="",
+                                    background_color=(1, 1, 1),
+                                    size_hint=(0.8, 1),
+                                    pos_hint={"x": 0.1})
+                    button.bind(on_press=(lambda dt: self.ViewPrayer(i + startingIndex)))
                     # Creates the styled buttons
                     # buttonText[0][...][0] selects title
-                    self.prayerBox.add_widget(Button(text=str(buttonText[0][i + startingIndex][0]),
-                                                     color=(0, 0, 0),
-                                                     background_normal="",
-                                                     background_color=(1, 1, 1),
-                                                     size_hint=(0.8, 1),
-                                                     pos_hint={"x": 0.1}))
+                    self.prayerBox.add_widget(button)
                     # margin between buttons
                     self.prayerBox.add_widget(Label(size_hint_y=0.2))
                     # generate empty label same size as button
@@ -93,6 +98,9 @@ class MyPrayers(Screen):
                     self.prayerBox.add_widget(Label(size_hint_y=1.2))
             # even bigger margin for the buttons to go
             self.prayerBox.add_widget(Label(size_hint_y=0.2))
+
+    def ViewPrayer(self, index):
+        print(index)
 
     def LoadMore(self):
         self.prayerBox.clear_widgets()
@@ -160,6 +168,10 @@ class CreatePage(Screen):
             self.ids.titleError.text = ""
             # redirects to the prayer list
             self.parent.current = "MyPrayers"
+
+
+class ViewPage(Screen):
+    pass
 
 
 # app class

@@ -188,9 +188,19 @@
             background_normal: "images/MenuButton.png"
             on_release: app.root.current = "home"
 
+<ViewPage>:
+    canvas:
+        Color:
+            rgb: 0.25, 0.45, 0.62
+        Rectangle:
+            size: self.size
+    name: "view"
+
+
 
 WindowManager:
     transition: NoTransition()
     MainPage:
     MyPrayers:
     CreatePage:
+    ViewPage:
