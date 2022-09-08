@@ -195,6 +195,29 @@
         Rectangle:
             size: self.size
     name: "view"
+    on_enter: root.LoadItems()
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            id: prayerTitle
+            size_hint_y: 0.4
+            text: "Share my Prayer"
+            font_size: "32dp"
+        # text colour
+            color: 1, 1, 1
+        Label:
+            id: prayerBody
+            color: 1, 1, 1
+
+    # menu button
+    AnchorLayout:
+        anchor_x: "right"
+        anchor_y: "bottom"
+        Button:
+            size_hint: (None, None)
+            size: ("50dp", "50dp")
+            background_normal: "images/MenuButton.png"
+            on_release: app.root.current = "home"
 
 
 

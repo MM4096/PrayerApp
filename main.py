@@ -87,7 +87,16 @@ class MyPrayers(Screen):
                                     background_color=(1, 1, 1),
                                     size_hint=(0.8, 1),
                                     pos_hint={"x": 0.1})
-                    button.bind(on_press=(lambda dt: self.ViewPrayer(i + startingIndex)))
+                    if i == 0:
+                        button.bind(on_press=(lambda dt: self.ViewPrayer(0 + startingIndex)))
+                    elif i == 1:
+                        button.bind(on_press=(lambda dt: self.ViewPrayer(1 + startingIndex)))
+                    elif i == 2:
+                        button.bind(on_press=(lambda dt: self.ViewPrayer(2 + startingIndex)))
+                    elif i == 3:
+                        button.bind(on_press=(lambda dt: self.ViewPrayer(3 + startingIndex)))
+                    elif i == 4:
+                        button.bind(on_press=(lambda dt: self.ViewPrayer(4 + startingIndex)))
                     # Creates the styled buttons
                     # buttonText[0][...][0] selects title
                     self.prayerBox.add_widget(button)
@@ -100,7 +109,9 @@ class MyPrayers(Screen):
             self.prayerBox.add_widget(Label(size_hint_y=0.2))
 
     def ViewPrayer(self, index):
-        print(index)
+        global viewPrayersIndex
+        viewPrayersIndex = index
+        self.parent.current = "view"
 
     def LoadMore(self):
         self.prayerBox.clear_widgets()
@@ -146,9 +157,9 @@ class CreatePage(Screen):
         # replaces \n with tag <newline>
         self.content = self.content.replace("\n", "<newline>")
         # finding "illegal" characters
-        if "\\" in self.title or "~" in self.title or "<newline>" in self.title:
+        if "~" in self.title or "<newline>" in self.title:
             self.ids.titleError.text = "Error: You cannot use words/characters: \\ ~ <newline> in your title or content"
-        elif "\\" in self.content or "~" in self.content or "<newline>" in self.content:
+        elif "~" in self.content or "<newline>" in self.content:
             self.ids.titleError.text = "Error: You cannot use words/characters: \\ ~ <newline> in your title or content"
         elif self.title == "":
             self.ids.titleError.text = "Error: You must enter a title"
@@ -171,7 +182,20 @@ class CreatePage(Screen):
 
 
 class ViewPage(Screen):
-    pass
+
+    def LoadItems(self):
+        localPrayers = []
+        with open("data/LocalPrayers.txt", "r") as data:
+            localPrayers.append(data.readline())
+            while not localPrayers[len(localPrayers) - 1] == "":
+                localPrayers.append(data.readline())
+        localPrayers.pop()
+        # removes \n or \r\n from the end of each line
+        localPrayers = [x.rstrip() for x in localPrayers]
+        for i in range(len(localPrayers)):
+            localPrayers[i] = localPrayers[i].split("~")
+        self.ids.prayerTitle.text = localPrayers[viewPrayersIndex][0]
+        self.ids.prayerBody.text = localPrayers[viewPrayersIndex][1]
 
 
 # app class
