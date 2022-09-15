@@ -195,7 +195,25 @@ class ViewPage(Screen):
         for i in range(len(localPrayers)):
             localPrayers[i] = localPrayers[i].split("~")
         self.ids.prayerTitle.text = localPrayers[viewPrayersIndex][0]
-        self.ids.prayerBody.text = localPrayers[viewPrayersIndex][1]
+        try:
+            self.ids.prayerBody.text = localPrayers[viewPrayersIndex][1]
+        except IndexError:
+            self.ids.prayerBody.text = ""
+
+    def Delete(self):
+        localPrayers = []
+        with open("data/LocalPrayers.txt", "r") as data:
+            localPrayers.append(data.readline())
+            while not localPrayers[len(localPrayers) - 1] == "":
+                localPrayers.append(data.readline())
+        localPrayers.pop()
+        # removes \n or \r\n from the end of each line
+        localPrayers = [x.rstrip() for x in localPrayers]
+        localPrayers.pop(viewPrayersIndex)
+        with open("data/LocalPrayers.txt", "w") as file:
+            file.write("\n".join(localPrayers))
+        self.parent.current = "MyPrayers"
+
 
 
 # app class

@@ -175,6 +175,7 @@
                 background_normal: ""
                 background_color: (0.46, 0.68, 0.93)
                 color: (1, 1, 1)
+                on_release: app.root.current = "home"
 
 
 
@@ -208,6 +209,23 @@
         Label:
             id: prayerBody
             color: 1, 1, 1
+
+    AnchorLayout:
+        anchor_x: "left"
+        anchor_y: "bottom"
+        BoxLayout:
+            size_hint: (0.8, 1)
+            orientation: "horizontal"
+            Button:
+                text: "Delete"
+                size_hint: (0.05, 0.05)
+                pos_hint: {"x": 0.3}
+                font_size: "10dp"
+                background_normal: ""
+                background_color: (0.46, 0.68, 0.93)
+                color: (1, 1, 1)
+                on_release: root.Delete()
+
 
     # menu button
     AnchorLayout:
