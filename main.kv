@@ -75,6 +75,29 @@
             rgb: 0.25, 0.45, 0.62
         Rectangle:
             size: self.size
+    on_enter: root.LoadItems()
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            size_hint_y: 0.4
+            text: "Share my Prayer"
+            font_size: "32dp"
+        # text colour
+            color: 1, 1, 1
+
+        ScrollView:
+            pos_hint: {"x": 0.1}
+            size_hint: (0.8, 1)
+            do_scroll_x: False
+            do_scroll_y: True
+            StackLayout:
+                size_hint: 1, None
+                height: self.minimum_height
+                id: prayerBox
+        Label:
+            size_hint_y: 0.2
+
+
     AnchorLayout:
         anchor_x: "left"
         anchor_y: "bottom"

@@ -20,9 +20,6 @@ Config.set("input", 'mouse', "mouse,multitouch_on_demand")
 # for viewing prayers (index)
 viewPrayersIndex = 0
 
-"""Python naming conventions: Capital in front of every word (also because errors with screen manager and camel case 
-naming) Creates window manager"""
-
 
 # screens
 class WindowManager(ScreenManager):
@@ -37,80 +34,35 @@ class MainPage(Screen):
 class MyPrayers(Screen):
 
     def __init__(self, **kwargs):
-        self.prayerIndex = 0
-        super(MyPrayers, self).__init__(**kwargs)
-        # creating the variables here first
-        self.prayerBox = BoxLayout()
-        self.rectangle = None
-        # draws layout
-        Clock.schedule_once(self.DrawLayout)
-        # Reads 6 lines at a time, to get your prayer
+        super().__init__(**kwargs)
+
+    def LoadItems(self):
         localPrayers = []
         with open("data/LocalPrayers.txt", "r") as data:
             localPrayers.append(data.readline())
             while not localPrayers[len(localPrayers) - 1] == "":
                 localPrayers.append(data.readline())
-            localPrayers.pop()
         # removes \n or \r\n from the end of each line
         localPrayers = [x.rstrip() for x in localPrayers]
+        localPrayers.pop()
         # separation of title with content
         for i in range(len(localPrayers)):
             localPrayers[i] = localPrayers[i].split("~")
-        # add the buttons: lambda dt removes the callback
-        Clock.schedule_once(lambda dt: self.AddButtons(localPrayers))
-
-    def DrawLayout(self, *args):
-        # BoxLayout
-        mainBox = BoxLayout(orientation="vertical")
-        # Adds the title
-        titleLabel = Label(text="Personal Prayer List",
-                           size_hint_y=0.3,
-                           font_size=dp(32),
-                           color=(1, 1, 1))
-        # BoxLayout for the prayers
-        self.prayerBox = BoxLayout(orientation="vertical")
-        # adding widgets
-        mainBox.add_widget(titleLabel)
-        mainBox.add_widget(self.prayerBox)
-        self.add_widget(mainBox)
-
-    def AddButtons(self, *buttonText):
-        startingIndex = self.prayerIndex
-        # see if first index exists
-        if startingIndex < len(buttonText[0]):
-            for i in range(5):
-                # see if value exists
-                try:
-                    button = Button(text=str(buttonText[0][i + startingIndex][0]),
-                                    color=(0, 0, 0),
-                                    background_normal="",
-                                    background_color=(1, 1, 1),
-                                    size_hint=(0.8, 1),
-                                    pos_hint={"x": 0.1})
-                    if i == 0:
-                        button.bind(on_press=(lambda dt: self.ViewPrayer(0 + startingIndex)))
-                    elif i == 1:
-                        button.bind(on_press=(lambda dt: self.ViewPrayer(1 + startingIndex)))
-                    elif i == 2:
-                        button.bind(on_press=(lambda dt: self.ViewPrayer(2 + startingIndex)))
-                    elif i == 3:
-                        button.bind(on_press=(lambda dt: self.ViewPrayer(3 + startingIndex)))
-                    elif i == 4:
-                        button.bind(on_press=(lambda dt: self.ViewPrayer(4 + startingIndex)))
-                    # Creates the styled buttons
-                    # buttonText[0][...][0] selects title
-                    self.prayerBox.add_widget(button)
-                    # margin between buttons
-                    self.prayerBox.add_widget(Label(size_hint_y=0.2))
-                    # generate empty label same size as button
-                except IndexError:
-                    self.prayerBox.add_widget(Label(size_hint_y=1.2))
-            # even bigger margin for the buttons to go
-            self.prayerBox.add_widget(Label(size_hint_y=0.2))
+            button = Button(text=localPrayers[i][0],
+                            size_hint=(1, None),
+                            height=dp(100),
+                            color=(0, 0, 0),
+                            background_normal="",
+                            background_color=(1, 1, 1),
+                            pos_hint={"x": 0.1})
+            button.bind(on_release=(lambda dt, i=i: self.ViewPrayer(i)))
+            self.ids.prayerBox.add_widget(button)
+            self.ids.prayerBox.add_widget(Label(size_hint_y=None, height=dp(20)))
 
     def ViewPrayer(self, index):
         global viewPrayersIndex
         viewPrayersIndex = index
+        print(viewPrayersIndex)
         self.parent.current = "view"
 
     def LoadMore(self):
@@ -131,7 +83,6 @@ class MyPrayers(Screen):
 
     def Reset(self):
         localPrayers = []
-        self.prayerIndex = 0
         self.prayerBox.clear_widgets()
         with open("data/LocalPrayers.txt", "r") as data:
             localPrayers.append(data.readline())
@@ -213,7 +164,6 @@ class ViewPage(Screen):
         with open("data/LocalPrayers.txt", "w") as file:
             file.write("\n".join(localPrayers))
         self.parent.current = "MyPrayers"
-
 
 
 # app class
