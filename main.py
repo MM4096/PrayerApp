@@ -1,15 +1,12 @@
 import os.path
 from os.path import exists
-from kivy import app
+
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.config import Config
-from kivy.graphics import *
 from kivy.lang import Builder
 from kivy.metrics import dp
 from kivy.properties import StringProperty
-from kivy.uix.anchorlayout import AnchorLayout
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen, ScreenManager
