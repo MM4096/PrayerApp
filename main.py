@@ -111,6 +111,10 @@ class CreatePage(Screen):
             self.ids.titleError.text = "Error: You cannot use words/characters: \\ ~ <newline> in your title or content"
         elif self.title == "":
             self.ids.titleError.text = "Error: You must enter a title"
+        elif len(self.title) > 30:
+            self.ids.titleError.text = "Title too long! Keep your title under 30 characters!"
+        elif len(self.content) > 500:
+            self.ids.titleError.text = "Body too long! Keep your body under 500 characters!"
         else:
             # making the prayer in the way it is saved
             writeStr = self.title + "~" + self.content
