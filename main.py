@@ -1,15 +1,12 @@
 import os.path
 from os.path import exists
-from kivy import app
+
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.config import Config
-from kivy.graphics import *
 from kivy.lang import Builder
 from kivy.metrics import dp
 from kivy.properties import StringProperty
-from kivy.uix.anchorlayout import AnchorLayout
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen, ScreenManager
@@ -37,6 +34,7 @@ class MyPrayers(Screen):
         super().__init__(**kwargs)
 
     def LoadItems(self):
+        self.ids.prayerBox.clear_widgets()
         localPrayers = []
         with open("data/LocalPrayers.txt", "r") as data:
             localPrayers.append(data.readline())
@@ -65,25 +63,9 @@ class MyPrayers(Screen):
         print(viewPrayersIndex)
         self.parent.current = "view"
 
-    def LoadMore(self):
-        self.prayerBox.clear_widgets()
-        self.prayerIndex += 5
-        localPrayers = []
-        with open("data/LocalPrayers.txt", "r") as data:
-            localPrayers.append(data.readline())
-            while not localPrayers[len(localPrayers) - 1] == "":
-                localPrayers.append(data.readline())
-        localPrayers.pop()
-        # removes \n or \r\n from the end of each line
-        localPrayers = [x.rstrip() for x in localPrayers]
-        for i in range(len(localPrayers)):
-            localPrayers[i] = localPrayers[i].split("~")
-        # add the buttons: lambda dt removes the callback
-        Clock.schedule_once(lambda dt: self.AddButtons(localPrayers))
-
     def Reset(self):
         localPrayers = []
-        self.prayerBox.clear_widgets()
+        self.ids.prayerBox.clear_widgets()
         with open("data/LocalPrayers.txt", "r") as data:
             localPrayers.append(data.readline())
             while not localPrayers[len(localPrayers) - 1] == "":
@@ -94,7 +76,7 @@ class MyPrayers(Screen):
         for i in range(len(localPrayers)):
             localPrayers[i] = localPrayers[i].split("~")
         # add the buttons: lambda dt removes the callback
-        Clock.schedule_once(lambda dt: self.AddButtons(localPrayers))
+        Clock.schedule_once(lambda dt: self.LoadItems())
 
 
 class CreatePage(Screen):
@@ -114,17 +96,22 @@ class CreatePage(Screen):
             self.ids.titleError.text = "Error: You cannot use words/characters: \\ ~ <newline> in your title or content"
         elif self.title == "":
             self.ids.titleError.text = "Error: You must enter a title"
+        elif len(self.title) > 30:
+            self.ids.titleError.text = "Title too long! Keep your title under 30 characters!"
+        elif len(self.content) > 500:
+            self.ids.titleError.text = "Body too long! Keep your body under 500 characters!"
         else:
             # making the prayer in the way it is saved
             writeStr = self.title + "~" + self.content
             with open("data/LocalPrayers.txt", 'r+') as file:
                 # reads file
                 data = file.read()
+            with open("data/LocalPrayers.txt", "w") as file:
                 # places writing at start
                 file.seek(0, 0)
                 # writes
                 file.write(writeStr + "\n" + data)
-            # clears inputs
+            # clears input
             self.ids.title.text = ""
             self.ids.body.text = ""
             self.ids.titleError.text = ""
