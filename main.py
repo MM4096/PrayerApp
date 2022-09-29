@@ -34,7 +34,9 @@ class MyPrayers(Screen):
         super().__init__(**kwargs)
 
     def LoadItems(self):
+        # clearing current buttons
         self.ids.prayerBox.clear_widgets()
+        # getting data
         localPrayers = []
         with open("data/LocalPrayers.txt", "r") as data:
             localPrayers.append(data.readline())
@@ -46,6 +48,7 @@ class MyPrayers(Screen):
         # separation of title with content
         for i in range(len(localPrayers)):
             localPrayers[i] = localPrayers[i].split("~")
+            # adding the prayers in a button
             button = Button(text=localPrayers[i][0],
                             size_hint=(1, None),
                             height=dp(100),
@@ -58,12 +61,14 @@ class MyPrayers(Screen):
             self.ids.prayerBox.add_widget(Label(size_hint_y=None, height=dp(20)))
 
     def ViewPrayer(self, index):
+        # getting correct index then redirection
         global viewPrayersIndex
         viewPrayersIndex = index
         print(viewPrayersIndex)
         self.parent.current = "view"
 
     def Reset(self):
+        # adding prayers when leaving
         localPrayers = []
         self.ids.prayerBox.clear_widgets()
         with open("data/LocalPrayers.txt", "r") as data:
@@ -89,7 +94,7 @@ class CreatePage(Screen):
         self.content = self.ids.body.text
         # replaces \n with tag <newline>
         self.content = self.content.replace("\n", "<newline>")
-        # finding "illegal" characters
+        # finding "illegal" characters and checking length
         if "~" in self.title or "<newline>" in self.title:
             self.ids.titleError.text = "Error: You cannot use words/characters: \\ ~ <newline> in your title or content"
         elif "~" in self.content or "<newline>" in self.content:
@@ -122,6 +127,7 @@ class CreatePage(Screen):
 class ViewPage(Screen):
 
     def LoadItems(self):
+        # getting all prayers
         localPrayers = []
         with open("data/LocalPrayers.txt", "r") as data:
             localPrayers.append(data.readline())
@@ -132,13 +138,16 @@ class ViewPage(Screen):
         localPrayers = [x.rstrip() for x in localPrayers]
         for i in range(len(localPrayers)):
             localPrayers[i] = localPrayers[i].split("~")
+        # finding and updating prayers
         self.ids.prayerTitle.text = localPrayers[viewPrayersIndex][0]
         try:
             self.ids.prayerBody.text = localPrayers[viewPrayersIndex][1]
         except IndexError:
+            # if body text
             self.ids.prayerBody.text = ""
 
     def Delete(self):
+        # gets prayers
         localPrayers = []
         with open("data/LocalPrayers.txt", "r") as data:
             localPrayers.append(data.readline())
@@ -147,7 +156,9 @@ class ViewPage(Screen):
         localPrayers.pop()
         # removes \n or \r\n from the end of each line
         localPrayers = [x.rstrip() for x in localPrayers]
+        # deletes the selected prayer
         localPrayers.pop(viewPrayersIndex)
+        # updates file
         with open("data/LocalPrayers.txt", "w") as file:
             file.write("\n".join(localPrayers))
         self.parent.current = "MyPrayers"
