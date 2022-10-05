@@ -1,0 +1,279 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+# declaration because all these classes were not defined when kv builder was at top of main.py
+<WindowManager>:
+<MainPage>:
+    name: 'home'
+    BoxLayout:
+        orientation: "vertical"
+    # canvas to change background colour
+        canvas:
+            Color:
+                rgb: 0.25, 0.45, 0.62
+            Rectangle:
+                size: self.size
+        Label:
+            size_hint_y: 0.4
+            text: "Share my Prayer"
+            font_size: "32dp"
+        # text colour
+            color: 1, 1, 1
+
+        BoxLayout:
+            orientation: "vertical"
+            Button:
+                color: 0, 0, 0
+                # Background_normal: "" removes the default background
+                background_normal: ""
+                background_color: 1, 1, 1
+                size_hint: (0.8, 1)
+                pos_hint: {"x": 0.1}
+                text: "My Prayers"
+                # Changes page to the my prayers page
+                on_release: app.root.current = "MyPrayers"
+
+            # label to make a responsive gap between buttons
+            Label:
+                size_hint_y: 0.2
+
+            Button:
+                color: 0, 0, 0
+                background_normal: ""
+                background_color: 1, 1, 1
+                size_hint: (0.8, 1)
+                pos_hint: {"x": 0.1}
+                text: "Group Prayers"
+
+
+            Label:
+                size_hint_y: 0.2
+
+            Button:
+                color: 0, 0, 0
+                background_normal: ""
+                background_color: 1, 1, 1
+                size_hint: (0.8, 1)
+                pos_hint: {"x": 0.1}
+                text: "All Prayers"
+
+            Label:
+                size_hint_y: 0.2
+
+            Button:
+                color: 0, 0, 0
+                background_normal: ""
+                background_color: 1, 1, 1
+                size_hint: (0.8, 1)
+                pos_hint: {"x": 0.1}
+                text: "Log in/Sign up"
+            # Blank label to add indent to bottom
+            Label:
+                size_hint: (1, 0.3)
+<MyPrayers>:
+    name: 'MyPrayers'
+    canvas:
+        Color:
+            rgb: 0.25, 0.45, 0.62
+        Rectangle:
+            size: self.size
+    on_enter: root.LoadItems()
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            size_hint_y: 0.4
+            text: "Share my Prayer"
+            font_size: "32dp"
+        # text colour
+            color: 1, 1, 1
+
+        # container
+        ScrollView:
+            pos_hint: {"x": 0.1}
+            size_hint: (0.8, 1)
+            do_scroll_x: False
+            do_scroll_y: True
+            StackLayout:
+                size_hint: 1, None
+                height: self.minimum_height
+                id: prayerBox
+        Label:
+            size_hint_y: 0.2
+
+    # bottom buttons
+    AnchorLayout:
+        anchor_x: "left"
+        anchor_y: "bottom"
+        BoxLayout:
+            size_hint: (0.8, 1)
+            orientation: "horizontal"
+            Button:
+                text: "Create"
+                size_hint: (0.05, 0.05)
+                font_size: "10dp"
+                background_normal: ""
+                background_color: (0.46, 0.68, 0.93)
+                color: (1, 1, 1)
+                on_release: app.root.current = "create"
+
+            Label:
+                size_hint: (0.05, 0.05)
+            Label:
+                size_hint: (0.005, 1)
+
+    AnchorLayout:
+        anchor_x: "right"
+        anchor_y: "bottom"
+        Button:
+            size_hint: (None, None)
+            size: ("50dp", "50dp")
+            background_normal: "images/MenuButton.png"
+            on_release: root.Reset()
+            on_release: app.root.current = "home"
+
+<CreatePage>:
+    canvas:
+        Color:
+            rgb: 0.25, 0.45, 0.62
+        Rectangle:
+            size: self.size
+    name: "create"
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            size_hint_y: 0.4
+            text: "Create a Prayer"
+            font_size: "32dp"
+            # text colour
+            color: 1, 1, 1
+        # text inputs
+        TextInput:
+            id: title
+            hint_text: "Name of Prayer"
+            multiline: False
+            size_hint_y: 0.3
+            size_hint_x: 0.6
+            pos_hint: {"x": 0.2}
+        # label for both space and errors
+        Label:
+            id: titleError
+            size_hint_y: 0.2
+
+        TextInput:
+            id: body
+            hint_text: "Enter some text"
+            size_hint_y: 2
+            size_hint_x: 0.6
+            pos_hint: {"x": 0.2}
+
+        Label:
+            size_hint_y: 1.4
+
+    AnchorLayout:
+        anchor_x: "left"
+        anchor_y: "bottom"
+        BoxLayout:
+            size_hint: (0.8, 1)
+            orientation: "horizontal"
+            Button:
+                text: "Save"
+                size_hint: (0.05, 0.05)
+                pos_hint: {"x": 0.3}
+                font_size: "10dp"
+                background_normal: ""
+                background_color: (0.46, 0.68, 0.93)
+                color: (1, 1, 1)
+                on_release: root.Submit(self)
+
+            Label:
+                size_hint_x: 0.005
+
+            Button:
+                text: "Discard"
+                size_hint: (0.05, 0.05)
+                pos_hint: {"x": 0.3}
+                font_size: "10dp"
+                background_normal: ""
+                background_color: (0.46, 0.68, 0.93)
+                color: (1, 1, 1)
+                on_release: app.root.current = "home"
+
+
+
+    # menu button
+    AnchorLayout:
+        anchor_x: "right"
+        anchor_y: "bottom"
+        Button:
+            size_hint: (None, None)
+            size: ("50dp", "50dp")
+            background_normal: "images/MenuButton.png"
+            on_release: app.root.current = "home"
+
+<ViewPage>:
+    canvas:
+        Color:
+            rgb: 0.25, 0.45, 0.62
+        Rectangle:
+            size: self.size
+    name: "view"
+    on_enter: root.LoadItems()
+    BoxLayout:
+        orientation: "vertical"
+        # Labels to display prayers
+        Label:
+            id: prayerTitle
+            color: (1, 1, 1)
+            size_hint_y: 0.4
+            text: "Share my Prayer"
+            font_size: "32dp"
+        # text colour
+            color: 1, 1, 1
+        # text input to display multiline
+        TextInput:
+            id: prayerBody
+            foreground_color: (1, 1, 1)
+            background_normal: ""
+            background_color: (0.25, 0.45, 0.62)
+            readonly: True
+
+
+
+    AnchorLayout:
+        anchor_x: "left"
+        anchor_y: "bottom"
+        BoxLayout:
+            size_hint: (0.8, 1)
+            orientation: "horizontal"
+            Button:
+                text: "Delete"
+                size_hint: (0.05, 0.05)
+                pos_hint: {"x": 0.3}
+                font_size: "10dp"
+                background_normal: ""
+                background_color: (0.46, 0.68, 0.93)
+                color: (1, 1, 1)
+                on_release: root.Delete()
+
+            Label:
+                size_hint: (0.05, 0.05)
+            Label:
+                size_hint: (0.005, 1)
+
+
+    # menu button
+    AnchorLayout:
+        anchor_x: "right"
+        anchor_y: "bottom"
+        Button:
+            size_hint: (None, None)
+            size: ("50dp", "50dp")
+            background_normal: "images/MenuButton.png"
+            on_release: app.root.current = "home"
+
+
+
+WindowManager:
+    transition: NoTransition()
+    MainPage:
+    MyPrayers:
+    CreatePage:
+    ViewPage:
